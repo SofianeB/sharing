@@ -30,6 +30,7 @@ import matplotlib.pyplot as plt
 st.code("""ds = xr.tutorial.open_dataset('rasm').load()""", language='python')
 
 ds = xr.tutorial.open_dataset('rasm').load()
+ds
 
 month_length = ds.time.dt.days_in_month
 
