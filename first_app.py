@@ -1,3 +1,16 @@
+st.code("""
+from ast import increment_lineno
+import matplotlib
+import streamlit as st
+# To make things easier later, we're also importing numpy and pandas for
+# working with sample data.
+import numpy as np
+import pandas as pd
+import xarray as xr
+#import cartopy.crs  as ccrs
+import matplotlib.pyplot as plt
+""", language='python')
+
 from ast import increment_lineno
 import matplotlib
 import streamlit as st
@@ -18,6 +31,8 @@ st.title("Processing, ploting and sharing")
 st.write("For testing purpose, code is taken from this notebook https://xarray.pydata.org/en/stable/examples/monthly-means.html")
 
 st.code("""ds = xr.tutorial.open_dataset('rasm').load()""", language='python')
+
+ds = xr.tutorial.open_dataset('rasm').load()
 
 month_length = ds.time.dt.days_in_month
 
