@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 st.title("Processing, ploting and sharing")
 
 st.subheader("Calculating Seasonal Averages from Time Series of Monthly Means")
-st.write("For testing purpose, code is taken from this notebook https://xarray.pydata.org/en/stable/examples/monthly-means.html")
+st.write("This is just an example to use streamlit, code is taken from this notebook https://xarray.pydata.org/en/stable/examples/monthly-means.html")
 
 st.code("""
 import numpy as np
