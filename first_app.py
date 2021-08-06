@@ -1,71 +1,90 @@
-from ast import increment_lineno
-import matplotlib
+# Copyright 2018-2021 Streamlit Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import streamlit as st
-# To make things easier later, we're also importing numpy and pandas for
-# working with sample data.
+import plotly.graph_objs as go
 import numpy as np
-import pandas as pd
-import xarray as xr
-#import cartopy.crs  as ccrs
+
+st.title("Plotly examples")
+
+st.header("Chart with two lines")
+
+trace0 = go.Scatter(x=[1, 2, 3, 4], y=[10, 15, 13, 17])
+trace1 = go.Scatter(x=[1, 2, 3, 4], y=[16, 5, 11, 9])
+data = [trace0, trace1]
+st.write(data)
+
+
+###
+
+st.header("Matplotlib chart in Plotly")
+
 import matplotlib.pyplot as plt
 
-#xr.set_options(display_style="html")
+f = plt.figure()
+arr = np.random.normal(1, 1, size=100)
+plt.hist(arr, bins=20)
 
-#matplotlib.use("agg")
+st.plotly_chart(f)
 
-st.title("Processing, ploting and sharing")
-st.subheader('Calculating Seasonal Averages from Time Series of Monthly Means')
 
-st.write("For testing purpose, code is taken from this notebook https://xarray.pydata.org/en/stable/examples/monthly-means.html")
+###
 
-ds = xr.tutorial.open_dataset('rasm').load()
+st.header("3D plot")
 
-month_length = ds.time.dt.days_in_month
+x, y, z = np.random.multivariate_normal(np.array([0, 0, 0]), np.eye(3), 400).transpose()
 
-weights = month_length.groupby('time.season') / month_length.groupby('time.season').sum()
+trace1 = go.Scatter3d(
+    x=x,
+    y=y,
+    z=z,
+    mode="markers",
+    marker=dict(
+        size=12,
+        color=z,  # set color to an array/list of desired values
+        colorscale="Viridis",  # choose a colorscale
+        opacity=0.8,
+    ),
+)
 
-np.testing.assert_allclose(weights.groupby('time.season').sum().values, np.ones(4))
-
-ds_weighted = (ds * weights).groupby('time.season').sum(dim='time')
-
-ds_unweighted = ds.groupby('time.season').mean('time')
-
-ds_diff = ds_weighted - ds_unweighted
-
-notnull = pd.notnull(ds_unweighted['Tair'][0])
-
-fig, axes = plt.subplots(nrows=4, ncols=3, figsize=(14,12))
-
-for i, season in enumerate(('DJF', 'MAM', 'JJA', 'SON')):
-    ds_weighted['Tair'].sel(season=season).where(notnull).plot.pcolormesh(
-        ax=axes[i, 0], vmin=-30, vmax=30, cmap='Spectral_r',
-        add_colorbar=True, extend='both')
-
-    ds_unweighted['Tair'].sel(season=season).where(notnull).plot.pcolormesh(
-        ax=axes[i, 1], vmin=-30, vmax=30, cmap='Spectral_r',
-        add_colorbar=True, extend='both')
-
-    ds_diff['Tair'].sel(season=season).where(notnull).plot.pcolormesh(
-        ax=axes[i, 2], vmin=-0.1, vmax=.1, cmap='RdBu_r',
-        add_colorbar=True, extend='both')
-
-    axes[i, 0].set_ylabel(season)
-    axes[i, 1].set_ylabel('')
-    axes[i, 2].set_ylabel('')
-
-for ax in axes.flat:
-    ax.axes.get_xaxis().set_ticklabels([])
-    ax.axes.get_yaxis().set_ticklabels([])
-    ax.axes.axis('tight')
-    ax.set_xlabel('')
-
-axes[0, 0].set_title('Weighted by DPM')
-axes[0, 1].set_title('Equal Weighting')
-axes[0, 2].set_title('Difference')
-
-plt.tight_layout()
-
-fig.suptitle('Seasonal Surface Air Temperature', fontsize=16, y=1.02)
+data = [trace1]
+layout = go.Layout(margin=dict(l=0, r=0, b=0, t=0))
+fig = go.Figure(data=data, layout=layout)
 
 st.write(fig)
 
+
+###
+
+st.header("Fancy density plot")
+
+import plotly.figure_factory as ff
+
+import numpy as np
+
+# Add histogram data
+x1 = np.random.randn(200) - 2
+x2 = np.random.randn(200)
+x3 = np.random.randn(200) + 2
+
+# Group data together
+hist_data = [x1, x2, x3]
+
+group_labels = ["Group 1", "Group 2", "Group 3"]
+
+# Create distplot with custom bin_size
+fig = ff.create_distplot(hist_data, group_labels, bin_size=[0.1, 0.25, 0.5])
+
+# Plot!
+st.plotly_chart(fig)
