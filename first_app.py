@@ -1,3 +1,14 @@
+from ast import increment_lineno
+import matplotlib
+import streamlit as st
+# To make things easier later, we're also importing numpy and pandas for
+# working with sample data.
+import numpy as np
+import pandas as pd
+import xarray as xr
+#import cartopy.crs  as ccrs
+import matplotlib.pyplot as plt
+
 st.code("""
 from ast import increment_lineno
 import matplotlib
@@ -11,16 +22,6 @@ import xarray as xr
 import matplotlib.pyplot as plt
 """, language='python')
 
-from ast import increment_lineno
-import matplotlib
-import streamlit as st
-# To make things easier later, we're also importing numpy and pandas for
-# working with sample data.
-import numpy as np
-import pandas as pd
-import xarray as xr
-#import cartopy.crs  as ccrs
-import matplotlib.pyplot as plt
 
 #xr.set_options(display_style="html")
 
