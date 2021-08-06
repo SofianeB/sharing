@@ -11,18 +11,13 @@ import matplotlib.pyplot as plt
 
 st.title("Processing, ploting and sharing")
 
+st.subheader("Calculating Seasonal Averages from Time Series of Monthly Means")
 st.write("For testing purpose, code is taken from this notebook https://xarray.pydata.org/en/stable/examples/monthly-means.html")
 
 st.code("""
-from ast import increment_lineno
-import matplotlib
-import streamlit as st
-# To make things easier later, we're also importing numpy and pandas for
-# working with sample data.
 import numpy as np
 import pandas as pd
 import xarray as xr
-#import cartopy.crs  as ccrs
 import matplotlib.pyplot as plt
 """, language='python')
 
