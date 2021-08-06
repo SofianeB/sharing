@@ -9,6 +9,10 @@ import xarray as xr
 #import cartopy.crs  as ccrs
 import matplotlib.pyplot as plt
 
+st.title("Processing, ploting and sharing")
+
+st.write("For testing purpose, code is taken from this notebook https://xarray.pydata.org/en/stable/examples/monthly-means.html")
+
 st.code("""
 from ast import increment_lineno
 import matplotlib
@@ -27,9 +31,6 @@ import matplotlib.pyplot as plt
 
 #matplotlib.use("agg")
 
-st.title("Processing, ploting and sharing")
-
-st.write("For testing purpose, code is taken from this notebook https://xarray.pydata.org/en/stable/examples/monthly-means.html")
 
 st.code("""ds = xr.tutorial.open_dataset('rasm').load()""", language='python')
 
